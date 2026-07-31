@@ -180,6 +180,11 @@ header p {
     font-weight: 600;
 }
 
+.na-value {
+    color: #f87171;
+    font-style: italic;
+}
+
 .no-results {
     text-align: center;
     padding: 60px 20px;
@@ -289,11 +294,14 @@ const petsData = [
     { name: "Huge Avenging Griffin", emoji: "🦅", category: "exclusive", normal: "800M - 1.3B", golden: "1.8B - 2.8B", rainbow: "3.5B - 5.5B" },
     { name: "Huge Bull", emoji: "🐂", category: "exclusive", normal: "600M - 900M", golden: "1.4B - 2.2B", rainbow: "2.8B - 4.5B" },
     { name: "Huge Angelus", emoji: "😇", category: "exclusive", normal: "600M - 900M", golden: "1.4B - 2.2B", rainbow: "2.8B - 4.5B" },
-    { name: "Huge Demon", emoji: "😈", category: "exclusive", normal: "500M - 800M", golden: "1.2B - 1.9B", rainbow: "2.5B - 4B" },
+    { name: "Huge Demon", emoji: "😈", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
     { name: "Huge Hell Rock", emoji: "🪨", category: "exclusive", normal: "450M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.8B" },
     { name: "Huge Angel Cat", emoji: "😸", category: "exclusive", normal: "450M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.8B" },
     { name: "Huge Hellbound", emoji: "🔥", category: "exclusive", normal: "420M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.5B" },
     { name: "Huge Storm Agony", emoji: "⚡", category: "exclusive", normal: "600M - 700M", golden: "1B - 1.6B", rainbow: "2B - 3.5B" },
+    { name: "Huge Pog Cat", emoji: "🐱", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
+    { name: "Huge Phantom Ghost", emoji: "👻", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
+    { name: "Huge Mushroom King", emoji: "🍄", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
     
     // Regular
     { name: "Huge Pegasus", emoji: "🐴", category: "regular", normal: "350M - 650M", golden: "800M - 1.3B", rainbow: "1.5B - 2.8B" },
@@ -327,21 +335,27 @@ function populateCards() {
     currentData.forEach(pet => {
         const card = document.createElement('div');
         card.className = 'card';
+        
+        const isNA = pet.normal === 'N/A';
+        const normalClass = isNA ? 'na-value' : 'normal';
+        const goldenClass = isNA ? 'na-value' : 'golden';
+        const rainbowClass = isNA ? 'na-value' : 'rainbow';
+        
         card.innerHTML = `
             <div class="card-image">${pet.emoji}</div>
             <div class="card-content">
                 <div class="card-title">${pet.name}</div>
                 <div class="value-row">
                     <span class="value-type normal">NORMAL</span>
-                    <span class="value-amount normal">${pet.normal}</span>
+                    <span class="value-amount ${normalClass}">${pet.normal}</span>
                 </div>
                 <div class="value-row">
                     <span class="value-type golden">GOLDEN</span>
-                    <span class="value-amount golden">${pet.golden}</span>
+                    <span class="value-amount ${goldenClass}">${pet.golden}</span>
                 </div>
                 <div class="value-row">
                     <span class="value-type rainbow">RAINBOW</span>
-                    <span class="value-amount rainbow">${pet.rainbow}</span>
+                    <span class="value-amount ${rainbowClass}">${pet.rainbow}</span>
                 </div>
             </div>
         `;
