@@ -21,19 +21,19 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 header h1 {
     font-size: 2.5em;
     color: #00d4ff;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
 }
 
 header p {
     color: #a0aec0;
-    font-size: 1.1em;
+    font-size: 1em;
 }
 
 .container {
@@ -43,13 +43,15 @@ header p {
 
 .controls {
     display: flex;
+    flex-direction: column;
     gap: 15px;
     margin-bottom: 30px;
-    flex-wrap: wrap;
-    justify-content: center;
+    align-items: center;
 }
 
-input, select {
+#search {
+    width: 100%;
+    max-width: 550px;
     padding: 12px 16px;
     border-radius: 8px;
     border: 2px solid #334155;
@@ -59,14 +61,39 @@ input, select {
     transition: border-color 0.3s;
 }
 
-input:focus, select:focus {
+#search:focus {
     outline: none;
     border-color: #00d4ff;
 }
 
-#search {
-    flex: 1;
-    min-width: 200px;
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 2px solid #334155;
+    border-radius: 25px;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    border-color: #00d4ff;
+    color: #00d4ff;
+}
+
+.filter-btn.active {
+    background: #00d4ff;
+    color: #000;
+    border-color: #00d4ff;
 }
 
 .grid {
@@ -208,12 +235,17 @@ input:focus, select:focus {
         gap: 15px;
     }
 
-    .controls {
-        flex-direction: column;
+    #search {
+        max-width: 100%;
     }
 
-    #search {
-        min-width: unset;
+    .filter-buttons {
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.9em;
     }
 }
 </style>
@@ -223,20 +255,17 @@ input:focus, select:focus {
 
 <header>
 <h1>💎 PSX Value List</h1>
-<p>Pet Simulator X Huge Creatures Price Guide</p>
+<p>Huge Creatures Value List</p>
 </header>
 
 <div class="container">
 
-<div class="stats">
-<div class="stat-card">
-<h3>Total Pets</h3>
-<div class="number" id="totalPets">0</div>
-</div>
-</div>
-
 <div class="controls">
 <input type="text" id="search" placeholder="🔍 Search pets..." onkeyup="filterCards()">
+<div class="filter-buttons">
+<button class="filter-btn active" onclick="filterByCategory('all')">All Pets</button>
+<button class="filter-btn" onclick="filterByCategory('exclusive')">Exclusive</button>
+</div>
 </div>
 
 <div class="grid" id="grid">
@@ -256,28 +285,32 @@ No pets found. Try adjusting your search.
 
 <script>
 const petsData = [
-    { name: "Huge Avenging Griffin", emoji: "🦅", normal: "800M - 1.3B", golden: "1.8B - 2.8B", rainbow: "3.5B - 5.5B" },
-    { name: "Huge Bull", emoji: "🐂", normal: "600M - 900M", golden: "1.4B - 2.2B", rainbow: "2.8B - 4.5B" },
-    { name: "Huge Angelus", emoji: "😇", normal: "600M - 900M", golden: "1.4B - 2.2B", rainbow: "2.8B - 4.5B" },
-    { name: "Huge Demon", emoji: "😈", normal: "500M - 800M", golden: "1.2B - 1.9B", rainbow: "2.5B - 4B" },
-    { name: "Huge Hell Rock", emoji: "🪨", normal: "450M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.8B" },
-    { name: "Huge Angel Cat", emoji: "😸", normal: "450M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.8B" },
-    { name: "Huge Hellbound", emoji: "🔥", normal: "420M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.5B" },
-    { name: "Huge Storm Agony", emoji: "⚡", normal: "600M - 700M", golden: "1B - 1.6B", rainbow: "2B - 3.5B" },
-    { name: "Huge Pegasus", emoji: "🐴", normal: "350M - 650M", golden: "800M - 1.3B", rainbow: "1.5B - 2.8B" },
-    { name: "Huge Easter Bunny", emoji: "🐰", normal: "300M - 600M", golden: "800M - 1.3B", rainbow: "1.3B - 2.5B" },
-    { name: "Huge Cupcake", emoji: "🧁", normal: "300M - 600M", golden: "700M - 1.2B", rainbow: "1.3B - 2.5B" },
-    { name: "Huge Turtle", emoji: "🐢", normal: "300M - 600M", golden: "700M - 1.2B", rainbow: "1.3B - 2.5B" },
-    { name: "Huge Corgi", emoji: "🐕", normal: "280M - 550M", golden: "650M - 1.1B", rainbow: "1.2B - 2.3B" },
-    { name: "Huge Cat", emoji: "🐱", normal: "250M - 500M", golden: "600M - 1B", rainbow: "1.1B - 2.2B" },
-    { name: "Huge Dragon", emoji: "🐉", normal: "320M - 620M", golden: "750M - 1.3B", rainbow: "1.4B - 2.8B" },
-    { name: "Huge Phoenix", emoji: "🔥", normal: "290M - 580M", golden: "700M - 1.2B", rainbow: "1.3B - 2.6B" },
-    { name: "Huge Unicorn", emoji: "🦄", normal: "270M - 550M", golden: "650M - 1.1B", rainbow: "1.2B - 2.4B" },
-    { name: "Huge Angel", emoji: "😇", normal: "260M - 520M", golden: "630M - 1.1B", rainbow: "1.2B - 2.3B" },
-    { name: "Huge Demon Fox", emoji: "🦊", normal: "240M - 480M", golden: "580M - 1B", rainbow: "1.1B - 2.2B" },
-    { name: "Huge Galaxy Wolf", emoji: "🐺", normal: "300M - 600M", golden: "700M - 1.2B", rainbow: "1.3B - 2.5B" },
+    // Exclusive
+    { name: "Huge Avenging Griffin", emoji: "🦅", category: "exclusive", normal: "800M - 1.3B", golden: "1.8B - 2.8B", rainbow: "3.5B - 5.5B" },
+    { name: "Huge Bull", emoji: "🐂", category: "exclusive", normal: "600M - 900M", golden: "1.4B - 2.2B", rainbow: "2.8B - 4.5B" },
+    { name: "Huge Angelus", emoji: "😇", category: "exclusive", normal: "600M - 900M", golden: "1.4B - 2.2B", rainbow: "2.8B - 4.5B" },
+    { name: "Huge Demon", emoji: "😈", category: "exclusive", normal: "500M - 800M", golden: "1.2B - 1.9B", rainbow: "2.5B - 4B" },
+    { name: "Huge Hell Rock", emoji: "🪨", category: "exclusive", normal: "450M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.8B" },
+    { name: "Huge Angel Cat", emoji: "😸", category: "exclusive", normal: "450M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.8B" },
+    { name: "Huge Hellbound", emoji: "🔥", category: "exclusive", normal: "420M - 750M", golden: "1.1B - 1.7B", rainbow: "2.2B - 3.5B" },
+    { name: "Huge Storm Agony", emoji: "⚡", category: "exclusive", normal: "600M - 700M", golden: "1B - 1.6B", rainbow: "2B - 3.5B" },
+    
+    // Regular
+    { name: "Huge Pegasus", emoji: "🐴", category: "regular", normal: "350M - 650M", golden: "800M - 1.3B", rainbow: "1.5B - 2.8B" },
+    { name: "Huge Easter Bunny", emoji: "🐰", category: "regular", normal: "300M - 600M", golden: "800M - 1.3B", rainbow: "1.3B - 2.5B" },
+    { name: "Huge Cupcake", emoji: "🧁", category: "regular", normal: "300M - 600M", golden: "700M - 1.2B", rainbow: "1.3B - 2.5B" },
+    { name: "Huge Turtle", emoji: "🐢", category: "regular", normal: "300M - 600M", golden: "700M - 1.2B", rainbow: "1.3B - 2.5B" },
+    { name: "Huge Corgi", emoji: "🐕", category: "regular", normal: "280M - 550M", golden: "650M - 1.1B", rainbow: "1.2B - 2.3B" },
+    { name: "Huge Cat", emoji: "🐱", category: "regular", normal: "250M - 500M", golden: "600M - 1B", rainbow: "1.1B - 2.2B" },
+    { name: "Huge Dragon", emoji: "🐉", category: "regular", normal: "320M - 620M", golden: "750M - 1.3B", rainbow: "1.4B - 2.8B" },
+    { name: "Huge Phoenix", emoji: "🔥", category: "regular", normal: "290M - 580M", golden: "700M - 1.2B", rainbow: "1.3B - 2.6B" },
+    { name: "Huge Unicorn", emoji: "🦄", category: "regular", normal: "270M - 550M", golden: "650M - 1.1B", rainbow: "1.2B - 2.4B" },
+    { name: "Huge Angel", emoji: "😇", category: "regular", normal: "260M - 520M", golden: "630M - 1.1B", rainbow: "1.2B - 2.3B" },
+    { name: "Huge Demon Fox", emoji: "🦊", category: "regular", normal: "240M - 480M", golden: "580M - 1B", rainbow: "1.1B - 2.2B" },
+    { name: "Huge Galaxy Wolf", emoji: "🐺", category: "regular", normal: "300M - 600M", golden: "700M - 1.2B", rainbow: "1.3B - 2.5B" },
 ];
 
+let currentCategory = 'all';
 let currentData = [...petsData];
 
 function populateCards() {
@@ -290,7 +323,6 @@ function populateCards() {
     }
     
     document.getElementById('noResults').style.display = 'none';
-    document.getElementById('totalPets').textContent = currentData.length;
     
     currentData.forEach(pet => {
         const card = document.createElement('div');
@@ -300,15 +332,15 @@ function populateCards() {
             <div class="card-content">
                 <div class="card-title">${pet.name}</div>
                 <div class="value-row">
-                    <span class="value-type normal">Normal</span>
+                    <span class="value-type normal">NORMAL</span>
                     <span class="value-amount normal">${pet.normal}</span>
                 </div>
                 <div class="value-row">
-                    <span class="value-type golden">Golden</span>
+                    <span class="value-type golden">GOLDEN</span>
                     <span class="value-amount golden">${pet.golden}</span>
                 </div>
                 <div class="value-row">
-                    <span class="value-type rainbow">Rainbow</span>
+                    <span class="value-type rainbow">RAINBOW</span>
                     <span class="value-amount rainbow">${pet.rainbow}</span>
                 </div>
             </div>
@@ -317,12 +349,39 @@ function populateCards() {
     });
 }
 
+function filterByCategory(category) {
+    currentCategory = category;
+    
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Filter data
+    if (category === 'all') {
+        currentData = [...petsData];
+    } else {
+        currentData = petsData.filter(pet => pet.category === category);
+    }
+    
+    // Reset search
+    document.getElementById('search').value = '';
+    populateCards();
+}
+
 function filterCards() {
     const searchInput = document.getElementById('search').value.toLowerCase();
     
-    currentData = petsData.filter(pet => 
-        pet.name.toLowerCase().includes(searchInput)
-    );
+    if (currentCategory === 'all') {
+        currentData = petsData.filter(pet => 
+            pet.name.toLowerCase().includes(searchInput)
+        );
+    } else {
+        currentData = petsData.filter(pet => 
+            pet.category === currentCategory && pet.name.toLowerCase().includes(searchInput)
+        );
+    }
     
     populateCards();
 }
