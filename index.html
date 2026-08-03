@@ -333,6 +333,13 @@ const petsData = [
     { name: "Huge Phantom Wolf", emoji: "👻", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
     { name: "Huge Mushroom King", emoji: "🍄", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
     { name: "Huge HUGE Pog Immortuus", emoji: "🏆", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
+    // New entries (added per user request)
+    { name: "Huge Nyan Cat", emoji: "😺", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
+    { name: "Huge Cyborg Dragon", emoji: "🤖", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
+    { name: "Huge Techno Cat", emoji: "🎧", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
+    { name: "Huge Cyborg Cat", emoji: "🤖", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
+    { name: "Huge Cyborg Bunny", emoji: "🤖", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
+    { name: "Huge M2 Prototype", emoji: "🔧", category: "exclusive", normal: "N/A", golden: "N/A", rainbow: "N/A" },
     
     // Regular
     { name: "Huge Pegasus", emoji: "🐴", category: "regular", normal: "350M - 650M", golden: "800M - 1.3B", rainbow: "1.5B - 2.8B" },
@@ -375,15 +382,15 @@ function populateCards() {
                 <div class="card-title">${pet.name}</div>
                 <div class="value-row">
                     <span class="value-type normal">NORMAL</span>
-                    <span class="value-amount ${normalClass}\">${pet.normal}</span>
+                    <span class="value-amount ${normalClass}">${pet.normal}</span>
                 </div>
                 <div class="value-row">
                     <span class="value-type golden">GOLDEN</span>
-                    <span class="value-amount ${goldenClass}\">${pet.golden}</span>
+                    <span class="value-amount ${goldenClass}">${pet.golden}</span>
                 </div>
                 <div class="value-row">
                     <span class="value-type rainbow">RAINBOW</span>
-                    <span class="value-amount ${rainbowClass}\">${pet.rainbow}</span>
+                    <span class="value-amount ${rainbowClass}">${pet.rainbow}</span>
                 </div>
             </div>
         `;
